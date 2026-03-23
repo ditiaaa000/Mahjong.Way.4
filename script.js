@@ -543,11 +543,13 @@
         renderTopupHistory();
     }
 
-    function addWithdrawHistory(amount, method, account) {
+    // FIX: Tambah parameter name
+    function addWithdrawHistory(amount, method, account, name) {
         withdrawHistory.unshift({
             amount: amount,
             method: method,
             account: account,
+            name: name, // Simpan nama
             time: new Date().toLocaleString('id-ID'),
             status: 'PROSES'
         });
@@ -588,6 +590,7 @@
                             <span class="history-status status-process">${item.status}</span>
                         </div>
                         <div class="history-item-detail">${item.method} - ${item.account}</div>
+                        <div class="history-item-detail">Nama: ${item.name}</div>
                         <div class="history-item-time">${item.time}</div>
                     </div>
                 `;
@@ -714,12 +717,13 @@
         let old = balance; balance -= amt;
         animateValue($("#balance"), old, balance, 500); updateUIData();
         
-        // Add History with Status PROSES
-        addWithdrawHistory(amt, met, met.includes('BANK') ? acc+" ("+nm+")" : acc);
+        // FIX: Kirim parameter 'nm' (nama) ke history
+        addWithdrawHistory(amt, met, acc, nm);
         
         $("#success-amount").text(formatRupiah(amt)); 
         $("#success-method").text(met); 
-        $("#success-account").text(met.includes('BANK') ? acc+" ("+nm+")" : acc);
+        // FIX: Selalu tampilkan nama di popup sukses
+        $("#success-account").text(acc + " (" + nm + ")");
         $("#withdraw-modal").css("display", "none"); 
         $("#withdraw-success-modal").css("display", "flex"); 
         SFX.win();
