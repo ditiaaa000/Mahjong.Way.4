@@ -341,6 +341,25 @@ body {
     z-index: 10;
     background: linear-gradient(180deg, #0d0d0d, #050505);
     flex-shrink: 0;
+    position: relative;
+    margin-top: 10px;
+    /* JARAK DARI PANEL SALDO */
+}
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    z-index: 5;
+}
+
+.control-group.left {
+    flex: 1;
+    justify-content: flex-start;
+}
+
+.control-group.right {
+    flex: 1;
+    justify-content: flex-end;
 }
 
 .icon-btn,
@@ -355,6 +374,7 @@ body {
     align-items: center;
     justify-content: center;
     transition: all 0.15s;
+    flex-shrink: 0;
 }
 
 .icon-btn {
@@ -390,11 +410,27 @@ body {
     color: #f66;
 }
 
-/* SPIN BUTTON */
+/* DISABLED STATE */
+.btn-disabled {
+    opacity: 0.4;
+    pointer-events: none;
+    filter: grayscale(50%);
+}
+
+.bet-locked {
+    color: #ffd700 !important;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+/* SPIN BUTTON - ABSOLUTE CENTER */
 .main-spin-wrapper {
-    position: relative;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     width: 68px;
     height: 68px;
+    flex-shrink: 0;
+    z-index: 10;
 }
 
 .spin-aura {
@@ -459,6 +495,161 @@ body {
     box-shadow: 0 3px 12px rgba(255, 0, 0, 0.4);
 }
 
+/* ==========================================
+   MENU titik tiga - inline dengan auto
+   ========================================== */
+.menu-fab-inline {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #1a1a1a 0%, #0a0a0a 100%);
+    border: 1px solid rgba(184, 134, 11, 0.3);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    z-index: 20;
+}
+
+.menu-fab-inline:hover {
+    transform: scale(1.05);
+    border-color: rgba(184, 134, 11, 0.5);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+}
+
+.menu-fab-inline:active {
+    transform: scale(0.95);
+}
+
+.menu-fab-inline .menu-dots {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    align-items: center;
+    pointer-events: none;
+}
+
+.menu-fab-inline .menu-dots span {
+    display: block;
+    width: 3px;
+    height: 3px;
+    background: #b8860b;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.menu-fab-inline:hover .menu-dots span {
+    background: #ffd700;
+}
+
+/* menu popup - posisi bottom */
+.menu-popup-bottom {
+    position: fixed;
+    bottom: calc(95px + env(safe-area-inset-bottom));
+    right: 12px;
+    background: linear-gradient(145deg, #141414 0%, #0a0a0a 100%);
+    border: 1px solid rgba(184, 134, 11, 0.5);
+    border-radius: 14px;
+    padding: 8px;
+    z-index: 100;
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.85);
+    animation: menuSlideUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    min-width: 165px;
+}
+
+@keyframes menuSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 16px;
+    background: linear-gradient(145deg, #1f1f1f 0%, #151515 100%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.menu-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.08), transparent);
+    transition: left 0.4s ease;
+}
+
+.menu-item:hover::before {
+    left: 100%;
+}
+
+.menu-item:hover {
+    background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 100%);
+    border-color: rgba(184, 134, 11, 0.4);
+    transform: translateX(-3px);
+}
+
+.menu-item:active {
+    transform: scale(0.98);
+}
+
+.menu-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    background: linear-gradient(135deg, #b8860b 0%, #705810 100%);
+    box-shadow: 0 2px 6px rgba(184, 134, 11, 0.3);
+    flex-shrink: 0;
+}
+
+.menu-item:hover .menu-icon {
+    background: linear-gradient(135deg, #ffd700 0%, #b8860b 100%);
+}
+
+.menu-text {
+    color: #e0e0e0;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.menu-item::after {
+    content: '›';
+    position: absolute;
+    right: 12px;
+    color: #444;
+    font-size: 18px;
+    transition: all 0.2s ease;
+}
+
+.menu-item:hover::after {
+    color: #b8860b;
+    transform: translateX(2px);
+}
 /* MODALS */
 .modal {
     position: fixed;
@@ -519,14 +710,45 @@ body {
 }
 
 .error-glass {
-    border-color: #f44;
+    background: linear-gradient(180deg, #1a0505 0%, #0a0202 100%);
+    border: 1px solid rgba(255, 50, 50, 0.5);
+    border-radius: 16px;
+    padding: 25px;
+    text-align: center;
+    width: 85%;
+    max-width: 300px;
+}
+
+.error-icon-circle {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #cc0000, #800000);
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+}
+
+.error-icon-circle span {
+    font-size: 28px;
+    color: #fff;
 }
 
 .error-text {
-    color: #f44;
+    color: #ff4444;
+    margin-bottom: 8px;
     font-family: 'Oswald', sans-serif;
     font-size: 22px;
-    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+#alert-message {
+    color: #aaa;
+    font-size: 13px;
+    margin-bottom: 20px;
+    line-height: 1.5;
 }
 
 /* WIN OVERLAY */
@@ -742,194 +964,6 @@ body {
     50% {
         transform: translateY(-8px);
     }
-}
-
-/* ==========================================
-   MENU TITIK TIGA - REDESIGN RAPI & MEWAH
-   ========================================== */
-.menu-fab {
-    position: absolute;
-    bottom: calc(88px + env(safe-area-inset-bottom));
-    right: 12px;
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background: linear-gradient(145deg, #1a1a1a 0%, #0a0a0a 100%);
-    border: 1px solid rgba(184, 134, 11, 0.4);
-    cursor: pointer;
-    z-index: 100;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow:
-        0 4px 15px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    transition: all 0.25s ease;
-}
-
-.menu-fab:hover {
-    transform: scale(1.08);
-    border-color: rgba(184, 134, 11, 0.7);
-    box-shadow:
-        0 6px 20px rgba(0, 0, 0, 0.6),
-        0 0 15px rgba(184, 134, 11, 0.15);
-}
-
-.menu-fab:active {
-    transform: scale(0.95);
-}
-
-.menu-dots {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    align-items: center;
-}
-
-.menu-dots span {
-    display: block;
-    width: 4px;
-    height: 4px;
-    background: #b8860b;
-    border-radius: 50%;
-    transition: all 0.2s ease;
-}
-
-.menu-fab:hover .menu-dots span {
-    background: #ffd700;
-    box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
-}
-
-/* ==========================================
-   MENU POPUP - DESIGN MEWAH & RAPI
-   ========================================== */
-.menu-popup {
-    position: absolute;
-    bottom: calc(138px + env(safe-area-inset-bottom));
-    right: 12px;
-    background: linear-gradient(145deg, #141414 0%, #0a0a0a 100%);
-    border: 1px solid rgba(184, 134, 11, 0.5);
-    border-radius: 16px;
-    padding: 8px;
-    z-index: 99;
-    display: none;
-    flex-direction: column;
-    gap: 6px;
-    box-shadow:
-        0 15px 50px rgba(0, 0, 0, 0.85),
-        0 0 30px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.03);
-    animation: menuSlideUp 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
-    min-width: 175px;
-}
-
-@keyframes menuSlideUp {
-    from {
-        opacity: 0;
-        transform: translateY(15px) scale(0.95);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-/* Menu Item - Rapih & Modern */
-.menu-item {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 18px;
-    background: linear-gradient(145deg, #1f1f1f 0%, #151515 100%);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Shine effect saat hover */
-.menu-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.08), transparent);
-    transition: left 0.4s ease;
-}
-
-.menu-item:hover::before {
-    left: 100%;
-}
-
-.menu-item:hover {
-    background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 100%);
-    border-color: rgba(184, 134, 11, 0.4);
-    transform: translateX(-4px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-}
-
-.menu-item:active {
-    transform: scale(0.98) translateX(-4px);
-}
-
-/* Icon Box - Bulat dengan Background */
-.menu-icon {
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 18px;
-    flex-shrink: 0;
-    background: linear-gradient(135deg, #b8860b 0%, #705810 100%);
-    box-shadow:
-        0 2px 8px rgba(184, 134, 11, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    transition: all 0.2s ease;
-}
-
-.menu-item:hover .menu-icon {
-    background: linear-gradient(135deg, #ffd700 0%, #b8860b 100%);
-    box-shadow:
-        0 3px 12px rgba(255, 215, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    transform: scale(1.05);
-}
-
-/* Text Label */
-.menu-text {
-    color: #e0e0e0;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.3px;
-    transition: all 0.2s ease;
-}
-
-.menu-item:hover .menu-text {
-    color: #ffd700;
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
-}
-
-/* Arrow indicator */
-.menu-item::after {
-    content: '›';
-    position: absolute;
-    right: 14px;
-    color: #444;
-    font-size: 20px;
-    font-weight: 300;
-    transition: all 0.2s ease;
-}
-
-.menu-item:hover::after {
-    color: #b8860b;
-    transform: translateX(3px);
 }
 
 /* TOPUP / WITHDRAW MODALS */
@@ -1337,63 +1371,4 @@ body {
     font-size: 12px;
     font-weight: 800;
     cursor: pointer;
-}
-
-/* ==========================================
-   ERROR / ALERT MODAL - MEWAH
-   ========================================== */
-.error-glass {
-    background: linear-gradient(180deg, #1a0505 0%, #0a0202 100%);
-    border: 1px solid rgba(255, 50, 50, 0.5);
-    border-radius: 16px;
-    padding: 25px;
-    text-align: center;
-    width: 85%;
-    max-width: 300px;
-}
-
-.error-icon-circle {
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, #cc0000, #800000);
-    border-radius: 50%;
-    margin: 0 auto 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
-}
-
-.error-icon-circle span {
-    font-size: 28px;
-    color: #fff;
-}
-
-.error-text {
-    color: #ff4444;
-    margin-bottom: 8px;
-    font-family: 'Oswald', sans-serif;
-    font-size: 22px;
-    font-weight: 700;
-}
-
-#alert-message {
-    color: #aaa;
-    font-size: 13px;
-    margin-bottom: 20px;
-    line-height: 1.5;
-}
-
-/* ==========================================
-   BET LOCKED SAAT FREE SPINS
-   ========================================== */
-.btn-disabled {
-    opacity: 0.4;
-    pointer-events: none;
-    filter: grayscale(50%);
-}
-
-.bet-locked {
-    color: #ffd700 !important;
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
