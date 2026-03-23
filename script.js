@@ -3,7 +3,7 @@
     // ==========================================
     // SETTINGS & CONFIG
     // ==========================================
-    const GAME_MODE = "GACOR";
+    const GAME_MODE = "NORMAL";
 
     const RTP_CONFIG = {
         "GACOR":  { scatterChance: 0.05, goldChance: 0.70, baseWinChance: 0.95, maxCascades: 50, weights: { high: 60, mid: 30, low: 10 } },
@@ -209,7 +209,7 @@
     const multNormal = [1, 2, 3, 5];
     const multFS = [2, 4, 6, 10];
 
-    let balance = 500000;
+    let balance = 50000;
     let betIdx = 1;
     let isSpinning = false;
     let autoRemaining = 0;
