@@ -110,7 +110,7 @@
     const multNormal = [1, 2, 3, 5];
     const multFS = [2, 4, 6, 10];
 
-    let balance = 500000;
+    let balance = 50000;
     let betIdx = 1;
     let isSpinning = false;
     let autoRemaining = 0;
