@@ -118,49 +118,52 @@
                 <div class="data-val win-glow-target" id="win-amount">Rp 0</div>
             </div>
         </div>
+<!-- BOTTOM CONTROLS - SPIN DI TENGAH -->
+<div class="bottom-controls">
+    <!-- Grup Kiri -->
+    <div class="control-group left">
+        <button class="icon-btn" id="turbo-btn">
+            <span class="ico">⚡</span>TURBO
+        </button>
+        <button class="math-btn" id="minus-bet">−</button>
+    </div>
 
-        <!-- Bottom Controls -->
-        <div class="bottom-controls">
-            <button class="icon-btn" id="turbo-btn">
-                <span class="ico">⚡</span>TURBO
-            </button>
-            <button class="math-btn" id="minus-bet">−</button>
+    <!-- Tombol Spin (Absolute Center) -->
+    <div class="main-spin-wrapper">
+        <div class="spin-aura"></div>
+        <button id="main-spin-btn">
+            <span id="spin-icon">MULAI</span>
+            <span id="auto-count" style="display:none;"></span>
+        </button>
+    </div>
 
-            <div class="main-spin-wrapper">
-                <div class="spin-aura"></div>
-                <button id="main-spin-btn">
-                    <span id="spin-icon">MULAI</span>
-                    <span id="auto-count" style="display:none;"></span>
-                </button>
-            </div>
-
-            <button class="math-btn" id="plus-bet">+</button>
-            <button class="icon-btn" id="auto-btn">
-                <span class="ico">▶</span>AUTO
-            </button>
-        </div>
-
-        <!-- MENU TITIK TIGA -->
-        <button id="menu-toggle-btn" class="menu-fab">
+    <!-- Grup Kanan -->
+    <div class="control-group right">
+        <button class="math-btn" id="plus-bet">+</button>
+        <button class="icon-btn" id="auto-btn">
+            <span class="ico">▶</span>AUTO
+        </button>
+        <button class="menu-fab-inline" id="menu-toggle-btn">
             <span class="menu-dots">
                 <span></span>
                 <span></span>
                 <span></span>
             </span>
         </button>
+    </div>
+</div>
 
-        <!-- POPUP MENU -->
-        <div id="menu-popup" class="menu-popup">
-            <button class="menu-item" id="menu-topup">
-                <span class="menu-icon">💳</span>
-                <span class="menu-text">Topup Akun</span>
-            </button>
-            <button class="menu-item" id="menu-withdraw">
-                <span class="menu-icon">💸</span>
-                <span class="menu-text">Withdraw</span>
-            </button>
-        </div>
-
+<!-- POPUP MENU -->
+<div id="menu-popup" class="menu-popup-bottom">
+    <button class="menu-item" id="menu-topup">
+        <span class="menu-icon">💳</span>
+        <span class="menu-text">Topup Akun</span>
+    </button>
+    <button class="menu-item" id="menu-withdraw">
+        <span class="menu-icon">💸</span>
+        <span class="menu-text">Withdraw</span>
+    </button>
+</div>
         <!-- AUTO MODAL -->
         <div id="auto-modal" class="modal">
             <div class="modal-box luxury-glass">
