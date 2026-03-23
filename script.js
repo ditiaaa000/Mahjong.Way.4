@@ -3,7 +3,7 @@
     // ==========================================
     // SETTINGS & CONFIG
     // ==========================================
-    const GAME_MODE = "GACOR"; 
+    const GAME_MODE = "NORMAL"; 
 
     const RTP_CONFIG = {
         "GACOR":  { scatterChance: 0.05, goldChance: 0.70, baseWinChance: 0.95, maxCascades: 50, weights: { high: 60, mid: 30, low: 10 } },
