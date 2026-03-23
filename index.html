@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <meta name="theme-color" content="#8B0000">
+    <title>Mahjong Ways 4 - Private Engine</title>
+    <link rel="shortcut icon" href="favicon/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+
+    <canvas id="fx-canvas"></canvas>
+
+    <div class="game-wrapper" id="game-machine">
+
+        <div id="retrigger-popup" class="luxury-text">+10 SPINS!</div>
+
+        <!-- POPUP SCATTER -->
+        <div id="scatter-win-overlay" class="scatter-celebration">
+            <div class="scatter-bg-burst"></div>
+            <div class="scatter-content">
+                <div class="scatter-icon-bounce">
+                    <img src="img/scatter.png" onerror="this.style.display='none'">
+                </div>
+                <h1 class="scatter-title">SCATTER BONUS</h1>
+                <p class="scatter-subtitle" id="scatter-count-text">3 SCATTERS</p>
+
+                <div class="scatter-win-info">
+                    <div class="scatter-win-label">TOTAL KEMENANGAN</div>
+                    <div class="scatter-win-value" id="scatter-total-win">Rp 0</div>
+                </div>
+
+                <div class="scatter-glow-ring"></div>
+            </div>
+        </div>
+
+        <!-- POPUP SUMMARY AKHIR FREE SPINS -->
+        <div id="bonus-summary-overlay" class="win-overlay">
+            <div class="sunburst"></div>
+            <div class="win-content">
+                <h1 class="win-title"
+                    style="background: linear-gradient(to bottom, #fff, #ffd700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 36px;">
+                    BONUS TOTAL</h1>
+                <p style="color: #888; margin: 8px 0; font-size: 13px;">Total Kemenangan Free Spins</p>
+                <div class="win-number" id="bonus-total-number" style="color: #ffd700;">Rp 0</div>
+                <button id="close-summary-btn" class="btn-success" style="margin-top: 25px;">KUMPULKAN</button>
+            </div>
+        </div>
+
+        <!-- Overlay Free Spins -->
+        <div id="fs-overlay" class="win-overlay">
+            <div class="sunburst"></div>
+            <div class="win-content">
+                <h1 class="win-title fs-title">FREE SPINS</h1>
+                <p class="fs-subtitle">10 PUTARAN GRATIS DIMULAI</p>
+                <div class="fs-win-info">
+                    <div class="fs-win-label">TOTAL KEMENANGAN</div>
+                    <div class="fs-win-value" id="fs-total-win">Rp 0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overlay Big Win -->
+        <div id="win-overlay" class="win-overlay">
+            <div class="sunburst"></div>
+            <div class="win-content">
+                <h1 class="win-title" id="win-title-text">BIG WIN</h1>
+                <div class="win-number" id="win-overlay-number">Rp 0</div>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <div class="game-logo-header">
+            <h2>MAHJONG WAYS 4</h2>
+            <div class="ways-text" id="fs-indicator">2000 WAYS</div>
+        </div>
+
+        <!-- Multiplier -->
+        <div class="top-header">
+            <div class="multiplier-bar">
+                <span class="mult active" id="m1">x1</span>
+                <span class="mult" id="m2">x2</span>
+                <span class="mult" id="m3">x3</span>
+                <span class="mult" id="mult-max">x5</span>
+            </div>
+        </div>
+
+        <!-- Slot Area -->
+        <div class="slot-area">
+            <div class="slot-frame">
+                <div class="grid-board" id="grid">
+                    <div class="reel" id="reel0"></div>
+                    <div class="reel" id="reel1"></div>
+                    <div class="reel" id="reel2"></div>
+                    <div class="reel" id="reel3"></div>
+                    <div class="reel" id="reel4"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Panel -->
+        <div class="data-panel">
+            <div class="data-box">
+                <div class="data-label">SALDO</div>
+                <div class="data-val" id="balance">Rp 0</div>
+            </div>
+            <div class="data-box">
+                <div class="data-label">TARUHAN</div>
+                <div class="data-val" id="bet-amount">Rp 0</div>
+            </div>
+            <div class="data-box">
+                <div class="data-label">MENANG</div>
+                <div class="data-val win-glow-target" id="win-amount">Rp 0</div>
+            </div>
+        </div>
+<!-- BOTTOM CONTROLS - SPIN DI TENGAH -->
+<div class="bottom-controls">
+    <!-- Grup Kiri -->
+    <div class="control-group left">
+        <button class="icon-btn" id="turbo-btn">
+            <span class="ico">⚡</span>TURBO
+        </button>
+        <button class="math-btn" id="minus-bet">−</button>
+    </div>
+
+    <!-- Tombol Spin (Absolute Center) -->
+    <div class="main-spin-wrapper">
+        <div class="spin-aura"></div>
+        <button id="main-spin-btn">
+            <span id="spin-icon">MULAI</span>
+            <span id="auto-count" style="display:none;"></span>
+        </button>
+    </div>
+
+    <!-- Grup Kanan -->
+    <div class="control-group right">
+        <button class="math-btn" id="plus-bet">+</button>
+        <button class="icon-btn" id="auto-btn">
+            <span class="ico">▶</span>AUTO
+        </button>
+        <button class="menu-fab-inline" id="menu-toggle-btn">
+            <span class="menu-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </span>
+        </button>
+    </div>
+</div>
+
+<!-- POPUP MENU -->
+<div id="menu-popup" class="menu-popup-bottom">
+    <button class="menu-item" id="menu-topup">
+        <span class="menu-icon">💳</span>
+        <span class="menu-text">Topup Akun</span>
+    </button>
+    <button class="menu-item" id="menu-withdraw">
+        <span class="menu-icon">💸</span>
+        <span class="menu-text">Withdraw</span>
+    </button>
+</div>
+        <!-- AUTO MODAL -->
+        <div id="auto-modal" class="modal">
+            <div class="modal-box luxury-glass">
+                <h3>AUTO SPIN</h3>
+                <div class="auto-options">
+                    <button class="opt" data-val="10">10</button>
+                    <button class="opt" data-val="30">30</button>
+                    <button class="opt" data-val="50">50</button>
+                    <button class="opt" data-val="80">80</button>
+                    <button class="opt" data-val="1000">∞</button>
+                </div>
+                <button class="close-modal" id="close-auto">BATAL</button>
+            </div>
+        </div>
+
+    <!-- ALERT MODAL - CUSTOM POPUP -->
+    <div id="alert-modal" class="modal">
+        <div class="modal-box error-glass">
+            <div class="error-icon-circle">
+                <span>✕</span>
+            </div>
+            <h3 class="error-text" id="alert-title">PERHATIAN</h3>
+            <p id="alert-message">Terjadi kesalahan.</p>
+            <button class="btn-success" id="close-alert"
+                style="background: linear-gradient(135deg, #aa0000, #600000);">OKE</button>
+        </div>
+    </div>
+
+        <!-- ==========================================
+             MODAL TOPUP - DIPERBAIKI
+             ========================================== -->
+        <div id="topup-modal" class="modal">
+            <div class="topup-container">
+                <div class="topup-header">
+                    <div class="topup-header-title">
+                        <span class="topup-icon">💳</span>
+                        <h3>TOPUP SALDO</h3>
+                    </div>
+                    <button class="topup-close" id="close-topup">✕</button>
+                </div>
+
+                <div class="topup-section">
+                    <label class="section-label">Pilih Nominal</label>
+                    <div class="topup-amounts">
+                        <button class="topup-amt" data-val="50000">
+                            <span class="amt-value">50K</span>
+                            <span class="amt-label">Rp 50.000</span>
+                        </button>
+                        <button class="topup-amt" data-val="100000">
+                            <span class="amt-value">100K</span>
+                            <span class="amt-label">Rp 100.000</span>
+                        </button>
+                        <button class="topup-amt" data-val="200000">
+                            <span class="amt-value">200K</span>
+                            <span class="amt-label">Rp 200.000</span>
+                        </button>
+                        <button class="topup-amt" data-val="500000">
+                            <span class="amt-value">500K</span>
+                            <span class="amt-label">Rp 500.000</span>
+                        </button>
+                        <button class="topup-amt" data-val="1000000">
+                            <span class="amt-value">1JT</span>
+                            <span class="amt-label">Rp 1.000.000</span>
+                        </button>
+                        <button class="topup-amt" data-val="custom">
+                            <span class="amt-value">...</span>
+                            <span class="amt-label">Lainnya</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="topup-input-section">
+                    <label class="section-label">Nominal Topup</label>
+                    <div class="topup-input-wrapper">
+                        <span class="input-prefix">Rp</span>
+                        <input type="text" id="topup-amount-input" readonly placeholder="Pilih nominal">
+                    </div>
+                </div>
+
+                <div id="custom-amount-section" style="display: none;">
+                    <label class="section-label">Masukkan Nominal</label>
+                    <div class="topup-input-wrapper">
+                        <span class="input-prefix">Rp</span>
+                        <input type="number" id="custom-amount-input" placeholder="Minimal 10.000">
+                    </div>
+                </div>
+
+                <center>
+                <div class="topup-qr-section">
+                    <div class="qr-header">
+                        <span class="qr-badge">QRIS</span>
+                        <span class="qr-label">Scan untuk bayar</span>
+                    </div>
+                        <div class="qr-code-box">
+                            <canvas id="qr-canvas"></canvas>
+                        </div>
+                        <p class="qr-expire">Berlaku: <span id="qr-expire-time">15:00</span></p>
+                    </div>
+                </center>
+
+                <div class="topup-actions">
+                    <button class="btn-cancel" id="btn-cancel-topup">BATAL</button>
+                    <button class="btn-confirm" id="btn-confirm-topup">✓ SUDAH TRANSFER</button>
+                </div>
+
+                <p class="topup-info">Saldo otomatis masuk setelah konfirmasi</p>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             MODAL TOPUP SUCCESS
+             ========================================== -->
+        <div id="topup-success-modal" class="modal">
+            <div class="success-container">
+                <div class="success-icon-circle">
+                    <span>✓</span>
+                </div>
+                <h3 class="success-title">TOPUP BERHASIL</h3>
+                <p class="success-subtitle">Saldo berhasil ditambahkan</p>
+
+                <div class="success-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Nominal</span>
+                        <span class="detail-value" id="topup-success-amount">Rp 0</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Saldo Baru</span>
+                        <span class="detail-value" id="topup-success-balance">Rp 0</span>
+                    </div>
+                </div>
+
+                <button class="btn-success" id="close-topup-success">OKE</button>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             MODAL WITHDRAW - DIPERBAIKI
+             ========================================== -->
+        <div id="withdraw-modal" class="modal">
+            <div class="withdraw-container">
+                <div class="withdraw-header">
+                    <div class="withdraw-header-title">
+                        <span class="withdraw-icon">💸</span>
+                        <h3>WITHDRAW</h3>
+                    </div>
+                    <button class="withdraw-close" id="close-withdraw">✕</button>
+                </div>
+
+                <div class="withdraw-balance-box">
+                    <span class="balance-label">Saldo Tersedia</span>
+                    <span class="balance-value" id="withdraw-balance-val">Rp 0</span>
+                </div>
+
+                <div class="withdraw-form">
+                    <div class="form-group">
+                        <label class="form-label">Jumlah Withdraw</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">Rp</span>
+                            <input type="number" id="withdraw-amount" placeholder="Masukkan jumlah">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Metode Pembayaran</label>
+                        <div class="select-wrapper">
+                            <select id="withdraw-method">
+                                <option value="">Pilih metode</option>
+                                <optgroup label="E-Wallet">
+                                    <option value="DANA">DANA</option>
+                                    <option value="OVO">OVO</option>
+                                    <option value="GOPAY">GoPay</option>
+                                    <option value="SHOPEEPAY">ShopeePay</option>
+                                </optgroup>
+                                <optgroup label="Bank">
+                                    <option value="BCA">Bank BCA</option>
+                                    <option value="MANDIRI">Bank Mandiri</option>
+                                    <option value="BNI">Bank BNI</option>
+                                    <option value="BRI">Bank BRI</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" id="account-label">Nomor Tujuan</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="withdraw-account" placeholder="Nomor HP / Rekening">
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="name-field" style="display: none;">
+                        <label class="form-label">Nama Pemilik</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="withdraw-name" placeholder="Nama lengkap">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="withdraw-actions">
+                    <button class="btn-cancel" id="btn-cancel-withdraw">BATAL</button>
+                    <button class="btn-withdraw" id="btn-confirm-withdraw">📤 WITHDRAW</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             MODAL WITHDRAW SUCCESS
+             ========================================== -->
+        <div id="withdraw-success-modal" class="modal">
+            <div class="success-container">
+                <div class="success-icon-circle">
+                    <span>✓</span>
+                </div>
+                <h3 class="success-title">WITHDRAW BERHASIL</h3>
+                <p class="success-subtitle">Permintaan sedang diproses</p>
+
+                <div class="success-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Jumlah</span>
+                        <span class="detail-value" id="success-amount">Rp 0</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Metode</span>
+                        <span class="detail-value" id="success-method">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Tujuan</span>
+                        <span class="detail-value" id="success-account">-</span>
+                    </div>
+                </div>
+
+                <div class="success-time-box">
+                    <span class="time-icon">⏱</span>
+                    <span class="time-text">Dana dikirim dalam</span>
+                    <span class="time-value">24 JAM</span>
+                </div>
+
+                <button class="btn-success" id="close-withdraw-success">OKE</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
