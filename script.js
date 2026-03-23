@@ -7,7 +7,7 @@
 
     const RTP_CONFIG = {
         "GACOR":  { scatterChance: 0.05, goldChance: 0.70, baseWinChance: 0.95, maxCascades: 50, weights: { high: 60, mid: 30, low: 10 } },
-        "NORMAL": { scatterChance: 0.04, goldChance: 0.25, baseWinChance: 0.65, maxCascades: 25, weights: { high: 60, mid: 30, low: 40 } },
+        "NORMAL": { scatterChance: 0.04, goldChance: 0.35, baseWinChance: 0.65, maxCascades: 35, weights: { high: 60, mid: 30, low: 40 } },
         "BAD":    { scatterChance: 0.01, goldChance: 0.08, baseWinChance: 0.15, maxCascades: 2, weights: { high: 5,  mid: 15, low: 80 } }
     };
     let cfg = RTP_CONFIG[GAME_MODE];
