@@ -32,7 +32,7 @@
     // ==========================================
     let topupHistory = [];
     let withdrawHistory = [];
-    let balance = 500000;
+    let balance = 50000;
     
     function loadGameData() {
         const savedData = localStorage.getItem('mahjong_ways_4_data');
